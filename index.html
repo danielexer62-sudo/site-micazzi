@@ -190,7 +190,8 @@ html.leaving body{opacity:0;transition:opacity .45s ease}
 @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}}
 </style>
 <style>
-#intro{position:fixed;inset:0;background:var(--night);display:flex;align-items:center;justify-content:center;z-index:200;animation:introOut .9s ease 2s forwards;pointer-events:none}
+html{background:var(--paper)}
+#intro{position:fixed;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center;z-index:200;animation:introOut .9s ease 2s forwards;pointer-events:none}
 #intro img{width:150px;height:auto;opacity:0;animation:introIn 1.1s ease .2s forwards}
 @keyframes introIn{to{opacity:1}}
 @keyframes introOut{to{opacity:0;visibility:hidden}}
@@ -198,7 +199,7 @@ html.leaving body{opacity:0;transition:opacity .45s ease}
 </style>
 </head>
 <body class="has-cursor">
-<div id="intro" aria-hidden="true"><img src="img/logo-branco.png" alt=""></div>
+<div id="intro" aria-hidden="true"><img src="img/logo-texto.png" alt=""></div>
 
 
 <a class="skip" href="#sobre">Pular para o conteúdo</a>
