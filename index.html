@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-type="service" data-site-kind="other">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Micazzi – Arquitetura de Alto Padrão</title>
+<meta name="description" content="Projetos autorais de arquitetura, interiores e gestão de obras de alto padrão em Lagoa Santa, MG.">
+<meta name="page-type" content="service">
+<meta name="site-kind" content="other">
+<meta name="theme-color" content="#1b1a18">
+<meta property="og:title" content="Studio Micazzi · Arquitetura de Alto Padrão">
+<meta property="og:description" content="Projetos autorais de arquitetura, interiores e gestão de obras em Lagoa Santa, MG.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --paper: #f5f3ef;
+    --stone: #ebe7e0;
+    --ink: #1f1e1b;
+    --muted: #7d7870;
+    --line: #d6d1c8;
+    --gold: #9a8566;
+    --night: #161513;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  .skip { position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 10px 16px; z-index: 100; }
+  .skip:focus { left: 8px; }
+  :focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
+
+  /* Cursor personalizado: seta vira bolinha (só em telas com mouse) */
+  .cursor { position: fixed; left: 0; top: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #fff; mix-blend-mode: difference; pointer-events: none; z-index: 999; transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease); display: none; }
+  .cursor.big { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  @media (hover: hover) and (pointer: fine) {
+    .cursor { display: block; }
+    .has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+  }
+
+  /* Cabeçalho */
+  header { position: absolute; top: 0; left: 0; right: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center; padding: 28px 6vw; color: #fff; }
+  .logo-img { height: 46px; width: auto; }
+  nav { display: flex; gap: 36px; }
+  nav a { position: relative; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: #fff; opacity: .9; padding: 4px 0; }
+  nav a::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+  nav a:hover::after, nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+  /* Hero: entra uma vez ao carregar */
+  .hero { position: relative; height: 100vh; min-height: 640px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; overflow: hidden; background: var(--night); }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(22,21,19,.25), rgba(22,21,19,.55)); }
+  .slides { position: absolute; inset: 0; z-index: 0; }
+  .slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.8s ease; animation: breathe 16s ease-in-out infinite alternate; }
+  .slide.active { opacity: 1; }
+  .hero-inner { position: relative; z-index: 2; animation: enter 1.4s var(--ease) both; }
+  .pause { position: absolute; left: 6vw; bottom: 36px; z-index: 3; background: none; border: 1px solid rgba(255,255,255,.6); color: #fff; padding: 10px 16px; font: inherit; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; transition: background .4s var(--ease), color .4s var(--ease); }
+  .pause:hover { background: #fff; color: var(--night); }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 6.4vw, 5.6rem); letter-spacing: .32em; text-transform: uppercase; padding-left: .32em; line-height: 1.1; }
+  .hero .sub { margin-top: 26px; font-size: clamp(.62rem, 1vw, .8rem); letter-spacing: .5em; text-transform: uppercase; opacity: .9; padding-left: .5em; }
+  .hero .actions { margin-top: 48px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .scroll-line { position: absolute; bottom: 36px; left: 50%; width: 1px; height: 64px; background: rgba(255,255,255,.6); transform: translateX(-50%); transform-origin: top; animation: draw 2.2s var(--ease) .6s both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.07); } }
+  @keyframes draw { from { transform: translateX(-50%) scaleY(0); } to { transform: translateX(-50%) scaleY(1); } }
+
+  /* Botões */
+  .btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 30px; border: 1px solid currentColor; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; transition: background .45s var(--ease), color .45s var(--ease), transform .25s var(--ease); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn span { transition: transform .45s var(--ease); }
+  .btn:hover span { transform: translateX(4px); }
+  .btn-light { color: #fff; }
+  .btn-light:hover { background: #fff; color: var(--night); }
+  .btn-dark { color: var(--ink); }
+  .btn-dark:hover { background: var(--ink); color: #fff; }
+  .btn-solid { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .btn-solid:hover { background: var(--gold); border-color: var(--gold); }
+
+  /* Seções */
+  section.block { position: relative; padding: 150px 6vw; }
+  section.block + section.block::before { content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 80px; background: var(--line); transform: translateX(-50%); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .label { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; display: flex; align-items: center; gap: 14px; }
+  .label::before { content: ""; width: 28px; height: 1px; background: var(--gold); }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.15; letter-spacing: .01em; margin-bottom: 28px; max-width: 18ch; }
+
+  /* Sobre: duas colunas assimétricas */
+  .sobre { display: grid; grid-template-columns: 1.1fr 1fr; gap: 110px; align-items: end; }
+  .sobre p { color: var(--muted); font-size: 1.04rem; max-width: 46ch; }
+  .sobre p + p { margin-top: 18px; }
+  .sobre .sign { margin-top: 36px; font-family: var(--serif); font-style: italic; color: var(--ink); font-size: 1.1rem; }
+
+  /* Serviços */
+  .servicos { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 72px; border-top: 1px solid var(--line); }
+  .servico { padding: 44px 30px 10px 0; }
+  .servico + .servico { padding-left: 30px; border-left: 1px solid var(--line); }
+  .servico .num { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: .95rem; }
+  .servico h3 { font-weight: 400; font-size: .82rem; letter-spacing: .26em; text-transform: uppercase; margin: 18px 0 14px; }
+  .servico p { color: var(--muted); font-size: .92rem; }
+
+  /* Portfólio */
+  .portfolio-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 64px; flex-wrap: wrap; }
+  .portfolio-head p { color: var(--muted); max-width: 38ch; }
+  .portfolio { display: grid; grid-template-columns: repeat(2, 1fr); gap: 84px 56px; }
+  .item:nth-child(even) { margin-top: 120px; }
+  .item-link { display: block; }
+  .frame { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background-color: var(--stone); }
+  .ph { position: absolute; inset: 0; background-size: cover; background-position: center; animation: breathe 16s ease-in-out infinite alternate; }
+  .item:nth-child(odd) .frame { aspect-ratio: 4 / 3; }
+
+  .item-meta { display: flex; justify-content: space-between; align-items: baseline; margin-top: 22px; gap: 20px; }
+  .item h3 { font-family: var(--serif); font-weight: 400; font-size: 1.5rem; }
+  .item .tag { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+  .item p { color: var(--muted); font-size: .95rem; margin-top: 6px; }
+
+  /* Faixa escura com destaque */
+  .band { background: var(--night); color: #efebe4; text-align: center; }
+  .band h2 { margin-left: auto; margin-right: auto; color: #fff; }
+  .band .label { justify-content: center; }
+  .band p { color: #aaa49a; max-width: 52ch; margin: 0 auto; }
+
+  /* Contato */
+  .contato { display: grid; grid-template-columns: 1fr 1fr; gap: 110px; align-items: center; }
+  .contato p { color: var(--muted); font-size: 1.02rem; max-width: 44ch; }
+  .contato .addr { margin-top: 36px; font-size: .92rem; color: var(--ink); }
+  .contato .addr strong { font-weight: 600; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 6px; }
+  .botoes { display: flex; flex-direction: column; gap: 14px; }
+  .botoes .btn { justify-content: space-between; width: 100%; }
+
+  footer { background: var(--night); color: #8a857c; padding: 48px 6vw; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; }
+  footer a:hover { color: #fff; }
+
+  /* Entrada de elementos apenas no hero; sem animações ao rolar */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .sobre, .contato { grid-template-columns: 1fr; gap: 56px; }
+    .servicos { grid-template-columns: 1fr 1fr; }
+    .servico:nth-child(3) { border-left: none; padding-left: 0; }
+    .servico:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .portfolio { grid-template-columns: 1fr; gap: 72px; }
+    .item:nth-child(even) { margin-top: 0; }
+    .item:nth-child(odd) .frame { aspect-ratio: 4 / 5; }
+    section.block { padding: 110px 6vw; }
+  }
+  /* Celular */
+  @media (max-width: 560px) {
+    .servicos { grid-template-columns: 1fr; }
+    .servico, .servico + .servico { padding: 32px 0; border-left: none; border-top: 1px solid var(--line); }
+    .hero h1 { letter-spacing: .2em; }
+    .hero .sub { letter-spacing: .3em; }
+    .btn { padding: 15px 22px; }
+  }
+</style>
+</head>
+<body class="has-cursor">
+
+<a class="skip" href="#sobre">Pular para o conteúdo</a>
+<div class="cursor" aria-hidden="true"></div>
+
+<header>
+  <a href="#inicio" aria-label="Studio Micazzi, início"><img class="logo-img" src="img/logo-branco.png" alt="Micazzi"></a>
+  <nav aria-label="Principal">
+    <a href="#sobre">Studio</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="inicio" aria-label="Apresentação">
+    <div class="slides" aria-hidden="true">
+      <div class="slide active" style="background-image:url('img/hero.jpg')"></div>
+      <div class="slide" style="background-image:url('img/alvorada-3.jpg')"></div>
+      <div class="slide" style="background-image:url('img/casa-portaria.jpg')"></div>
+      <div class="slide" style="background-image:url('img/obra-minc.jpg')"></div>
+      <div class="slide" style="background-image:url('img/casa-mavi.jpg')"></div>
+      <div class="slide" style="background-image:url('img/clinica-gessica.jpg')"></div>
+    </div>
+    <div class="hero-inner">
+      <h1>Micazzi</h1>
+      <div class="sub">Arquitetura de alto padrão</div>
+      <div class="actions">
+        <a class="btn btn-light" href="#contato">Solicitar proposta <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <button class="pause" id="pause" type="button" aria-pressed="false">Pausar imagens</button>
+    <div class="scroll-line" aria-hidden="true"></div>
+  </section>
+
+  <section class="block" id="sobre">
+    <div class="wrap sobre">
+      <div>
+        <div class="label">O studio</div>
+        <h2>Projetos autorais, feitos sob medida.</h2>
+      </div>
+      <div>
+        <p>O Studio Micazzi desenvolve projetos autorais de arquitetura de alto padrão para quem valoriza exclusividade, sofisticação e funcionalidade.</p>
+        <p>Unimos arquitetura, interiores e gestão de obras para levar cada espaço do projeto à execução, com atenção aos detalhes e à forma como você vive.</p>
+        <p class="sign">Lagoa Santa, Minas Gerais</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="servicos">
+    <div class="wrap">
+      <div class="label">Serviços</div>
+      <h2>Do primeiro traço à obra entregue.</h2>
+      <div class="servicos">
+        <div class="servico">
+          <span class="num">01</span>
+          <h3>Arquitetura</h3>
+          <p>Residências e espaços de alto padrão, projetados sob medida.</p>
+        </div>
+        <div class="servico">
+          <span class="num">02</span>
+          <h3>Interiores</h3>
+          <p>Ambientes integrados, com materiais e acabamentos escolhidos com cuidado.</p>
+        </div>
+        <div class="servico">
+          <span class="num">03</span>
+          <h3>Gestão de obras</h3>
+          <p>Acompanhamento da execução e coordenação entre fornecedores.</p>
+        </div>
+        <div class="servico">
+          <span class="num">04</span>
+          <h3>Vistorias</h3>
+          <p>Avaliações técnicas de imóveis e obras, com diagnóstico claro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projetos">
+    <div class="wrap">
+      <div class="portfolio-head">
+        <div>
+          <div class="label">Portfólio</div>
+          <h2>Projetos selecionados.</h2>
+        </div>
+        <p>Alguns dos trabalhos desenvolvidos pelo studio, da concepção à entrega.</p>
+        <a class="btn btn-dark" href="projetos.html" style="margin-top:28px">Ver todos os projetos <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="portfolio">
+        <article class="item">
+          <a class="item-link" href="#contato" aria-label="Alvorada 3: solicitar proposta">
+            <div class="frame"><div class="ph" style="background-image:url('img/alvorada-3.jpg')"></div></div>
+          </a>
+          <div class="item-meta"><h3>Alvorada 3</h3><span class="tag">Parceria</span></div>
+          <p>Em parceria com a Construtora Alvorada. Materiais nobres, mobiliário assinado e uma árvore nativa como protagonista do projeto.</p>
+        </article>
+        <article class="item">
+          <a class="item-link" href="#contato" aria-label="Casa Portaria: solicitar proposta">
+            <div class="frame"><div class="ph" style="background-image:url('img/casa-portaria.jpg')"></div></div>
+          </a>
+          <div class="item-meta"><h3>Casa Portaria</h3><span class="tag">Residencial</span></div>
+          <p>Projeto autoral do studio.</p>
+        </article>
+        <article class="item">
+          <a class="item-link" href="#contato" aria-label="Obra MINC: solicitar proposta">
+            <div class="frame"><div class="ph" style="background-image:url('img/obra-minc.jpg')"></div></div>
+          </a>
+          <div class="item-meta"><h3>Obra MINC</h3><span class="tag">Execução</span></div>
+          <p>Acompanhamento de obra e execução do projeto.</p>
+        </article>
+        <article class="item">
+          <a class="item-link" href="#contato" aria-label="Casa MaVi: solicitar proposta">
+            <div class="frame"><div class="ph" style="background-image:url('img/casa-mavi.jpg')"></div></div>
+          </a>
+          <div class="item-meta"><h3>Casa MaVi</h3><span class="tag">Residencial</span></div>
+          <p>Projeto autoral do studio.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block band" aria-label="Frase de destaque">
+    <div class="wrap">
+      <div class="label">Filosofia</div>
+      <h2>Exclusividade é um detalhe que se projeta.</h2>
+      <p>Cada escolha, da implantação ao último acabamento, é pensada para durar e para ser vivida.</p>
+    </div>
+  </section>
+
+  <section class="block" id="contato">
+    <div class="wrap contato">
+      <div>
+        <div class="label">Contato</div>
+        <h2>Vamos conversar sobre o seu projeto.</h2>
+        <p>Conte um pouco sobre o imóvel e o que você imagina. Respondemos pelo WhatsApp.</p>
+        <p class="addr"><strong>Endereço</strong>Av. Acadêmico Nilo Figueiredo, Lagoa Santa, MG</p>
+      </div>
+      <div class="botoes">
+        <a class="btn btn-solid" href="https://wa.me/5531993961402?text=micazzi" target="_blank" rel="noopener">Solicitar proposta <span aria-hidden="true">→</span></a>
+        <a class="btn btn-dark" href="https://wa.me/5531983950907?text=micazzi" target="_blank" rel="noopener">Tirar dúvidas <span aria-hidden="true">→</span></a>
+        <a class="btn btn-dark" href="https://www.instagram.com/studio.micazzi/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© Studio Micazzi · Lagoa Santa, MG</span>
+  <a href="https://www.instagram.com/studio.micazzi/" target="_blank" rel="noopener">@studio.micazzi</a>
+</footer>
+
+<script>
+  // Cursor: a seta vira uma bolinha que acompanha o mouse (apenas em telas com mouse)
+  (function () {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var dot = document.querySelector('.cursor');
+    var x = -100, y = -100, cx = -100, cy = -100;
+    addEventListener('mousemove', function (e) { x = e.clientX; y = e.clientY; }, { passive: true });
+    (function loop() {
+      cx += (x - cx) * 0.35;
+      cy += (y - cy) * 0.35;
+      dot.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { dot.classList.add('big'); });
+      el.addEventListener('mouseleave', function () { dot.classList.remove('big'); });
+    });
+  })();
+
+  // Troca lenta das fotos do topo (uma a cada 6 s), com botão para pausar
+  (function () {
+    var slides = document.querySelectorAll('.slide');
+    var btn = document.getElementById('pause');
+    if (!slides.length || matchMedia('(prefers-reduced-motion: reduce)').matches) { btn.hidden = true; return; }
+    var i = 0, timer = null;
+    function next() { slides[i].classList.remove('active'); i = (i + 1) % slides.length; slides[i].classList.add('active'); }
+    function start() { timer = setInterval(next, 6000); btn.setAttribute('aria-pressed', 'false'); btn.textContent = 'Pausar imagens'; }
+    function stop() { clearInterval(timer); timer = null; btn.setAttribute('aria-pressed', 'true'); btn.textContent = 'Retomar imagens'; }
+    btn.addEventListener('click', function () { timer ? stop() : start(); });
+    start();
+  })();
+</script>
+</body>
+</html>

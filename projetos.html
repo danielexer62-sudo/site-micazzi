@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projetos · Studio Micazzi</title>
+<meta name="description" content="Projetos de arquitetura, interiores e obras do Studio Micazzi em Lagoa Santa, MG.">
+<meta name="theme-color" content="#161513">
+<meta property="og:title" content="Projetos · Studio Micazzi">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --paper: #f5f3ef;
+    --stone: #ebe7e0;
+    --ink: #1f1e1b;
+    --muted: #7d7870;
+    --line: #d6d1c8;
+    --gold: #9a8566;
+    --night: #161513;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
+
+  /* Cursor personalizado: seta vira bolinha (só em telas com mouse) */
+  .cursor { position: fixed; left: 0; top: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #fff; mix-blend-mode: difference; pointer-events: none; z-index: 999; transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease); display: none; }
+  .cursor.big { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  @media (hover: hover) and (pointer: fine) {
+    .cursor { display: block; }
+    .has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+  }
+
+  /* Cabeçalho escuro e fixo */
+  header { position: sticky; top: 0; z-index: 20; background: var(--night); display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; color: #fff; }
+  .logo-img { height: 40px; width: auto; }
+  nav { display: flex; gap: 36px; }
+  nav a { position: relative; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: #fff; opacity: .85; padding: 4px 0; }
+  nav a::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+  nav a:hover::after, nav a:focus-visible::after, nav a[aria-current="page"]::after { transform: scaleX(1); transform-origin: left; }
+
+  /* Título da página */
+  .intro { padding: 150px 6vw 90px; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .label { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; display: flex; align-items: center; gap: 14px; }
+  .label::before { content: ""; width: 28px; height: 1px; background: var(--gold); }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 6vw, 5rem); line-height: 1.05; letter-spacing: .01em; }
+  .intro p { color: var(--muted); max-width: 52ch; margin-top: 28px; font-size: 1.04rem; }
+
+  /* Projetos: imagem grande + texto, alternando lados */
+  .projeto { padding: 0 6vw 140px; }
+  .projeto .wrap { display: grid; grid-template-columns: 1.6fr 1fr; gap: 80px; align-items: end; }
+  .projeto.inverso .wrap { grid-template-columns: 1fr 1.6fr; }
+  .projeto.inverso .foto { order: 2; }
+  .projeto.inverso .texto { order: 1; }
+  .foto { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background-color: var(--stone); }
+  .ph { position: absolute; inset: 0; background-size: cover; background-position: center; animation: breathe 16s ease-in-out infinite alternate; }
+  .num { font-family: var(--serif); font-style: italic; color: var(--gold); font-size: 1rem; }
+  .texto h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.15; margin: 14px 0 18px; }
+  .tag { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+  .texto p { color: var(--muted); font-size: 1rem; margin-top: 18px; max-width: 42ch; }
+  .texto .mais { display: inline-block; margin-top: 30px; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--ink); padding-bottom: 6px; background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat; transition: background-size .6s var(--ease); }
+  .texto .mais:hover { background-size: 100% 1px; }
+
+  /* Rodapé e voltar */
+  .fim { background: var(--night); color: #efebe4; padding: 120px 6vw; text-align: center; }
+  .fim h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.6vw, 3rem); color: #fff; margin-bottom: 36px; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 30px; border: 1px solid #fff; color: #fff; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; transition: background .45s var(--ease), color .45s var(--ease), transform .25s var(--ease); }
+  .btn:hover { background: #fff; color: var(--night); transform: translateY(-2px); }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  footer { background: var(--night); color: #8a857c; padding: 40px 6vw; border-top: 1px solid #2a2825; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; }
+  footer a:hover { color: #fff; }
+
+  @keyframes breathe { from { transform: scale(1); } to { transform: scale(1.07); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .projeto .wrap, .projeto.inverso .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .projeto.inverso .foto, .projeto.inverso .texto { order: 0; }
+    .projeto { padding-bottom: 110px; }
+  }
+</style>
+</head>
+<body class="has-cursor">
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header>
+  <a href="index.html" aria-label="Studio Micazzi, início"><img class="logo-img" src="img/logo-branco.png" alt="Micazzi"></a>
+  <nav aria-label="Principal">
+    <a href="index.html">Studio</a>
+    <a href="index.html#servicos">Serviços</a>
+    <a href="projetos.html" aria-current="page">Projetos</a>
+    <a href="index.html#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <div class="wrap">
+      <div class="label">Portfólio</div>
+      <h1>Projetos</h1>
+      <p>Trabalhos do Studio Micazzi em residências, obras e espaços de saúde, da concepção à entrega.</p>
+    </div>
+  </section>
+
+  <section class="projeto" id="alvorada-3">
+    <div class="wrap">
+      <div class="foto"><div class="ph" style="background-image:url('img/alvorada-3.jpg')"></div></div>
+      <div class="texto">
+        <span class="num">01</span>
+        <div class="tag">Parceria · Construtora Alvorada</div>
+        <h2>Alvorada 3</h2>
+        <p>Projeto em parceria com a Construtora Alvorada. Materiais nobres, mobiliário assinado e uma árvore nativa como protagonista do projeto.</p>
+        <a class="mais" href="index.html#contato">Solicitar proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projeto inverso" id="casa-portaria">
+    <div class="wrap">
+      <div class="foto"><div class="ph" style="background-image:url('img/casa-portaria.jpg')"></div></div>
+      <div class="texto">
+        <span class="num">02</span>
+        <div class="tag">Residencial</div>
+        <h2>Casa Portaria</h2>
+        <p>Projeto autoral do studio.</p>
+        <a class="mais" href="index.html#contato">Solicitar proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projeto" id="obra-minc">
+    <div class="wrap">
+      <div class="foto"><div class="ph" style="background-image:url('img/obra-minc.jpg')"></div></div>
+      <div class="texto">
+        <span class="num">03</span>
+        <div class="tag">Execução</div>
+        <h2>Obra MINC</h2>
+        <p>Acompanhamento de obra e execução do projeto.</p>
+        <a class="mais" href="index.html#contato">Solicitar proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projeto inverso" id="casa-mavi">
+    <div class="wrap">
+      <div class="foto"><div class="ph" style="background-image:url('img/casa-mavi.jpg')"></div></div>
+      <div class="texto">
+        <span class="num">04</span>
+        <div class="tag">Residencial</div>
+        <h2>Casa MaVi</h2>
+        <p>Projeto autoral do studio.</p>
+        <a class="mais" href="index.html#contato">Solicitar proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projeto" id="clinica-gessica">
+    <div class="wrap">
+      <div class="foto"><div class="ph" style="background-image:url('img/clinica-gessica.jpg')"></div></div>
+      <div class="texto">
+        <span class="num">05</span>
+        <div class="tag">Clínica</div>
+        <h2>Clínica Gessica</h2>
+        <p>Projeto de espaço clínico.</p>
+        <a class="mais" href="index.html#contato">Solicitar proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="fim">
+    <h2>Quer um projeto assim?</h2>
+    <a class="btn" href="index.html#contato">Solicitar proposta <span aria-hidden="true">→</span></a>
+  </section>
+</main>
+
+<footer>
+  <span>© Studio Micazzi · Lagoa Santa, MG</span>
+  <a href="https://www.instagram.com/studio.micazzi/" target="_blank" rel="noopener">@studio.micazzi</a>
+</footer>
+
+<script>
+  // Cursor: a seta vira uma bolinha que acompanha o mouse (apenas em telas com mouse)
+  (function () {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var dot = document.querySelector('.cursor');
+    var x = -100, y = -100, cx = -100, cy = -100;
+    addEventListener('mousemove', function (e) { x = e.clientX; y = e.clientY; }, { passive: true });
+    (function loop() {
+      cx += (x - cx) * 0.35;
+      cy += (y - cy) * 0.35;
+      dot.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { dot.classList.add('big'); });
+      el.addEventListener('mouseleave', function () { dot.classList.remove('big'); });
+    });
+  })();
+</script>
+</body>
+</html>
