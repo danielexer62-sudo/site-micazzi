@@ -104,6 +104,12 @@
     .fim { padding: 90px 6vw; }
   }
 </style>
+<style>
+body{animation:pageIn .8s ease backwards}
+html.leaving body{opacity:0;transition:opacity .45s ease}
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){body{animation:none}html.leaving body{transition:none}}
+</style>
 </head>
 <body class="has-cursor">
 
@@ -237,6 +243,20 @@
     });
     menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
   })();
+</script>
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) === '#' || a.target === '_blank' || /^(https?:|mailto:|tel:)/.test(h)) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    document.documentElement.classList.add('leaving');
+    setTimeout(function(){ location.href = h; }, 450);
+  });
+})();
 </script>
 </body>
 </html>
