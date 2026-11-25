@@ -86,6 +86,23 @@
     .projeto.inverso .foto, .projeto.inverso .texto { order: 0; }
     .projeto { padding-bottom: 110px; }
   }
+  /* Menu do celular (tela cheia) */
+  .menu-btn { display: none; background: none; border: 1px solid rgba(255,255,255,.6); color: #fff; padding: 10px 16px; font: inherit; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; cursor: pointer; }
+  @media (max-width: 900px) {
+    body { overflow-x: hidden; }
+    .menu-btn { display: inline-block; }
+    nav { display: none; }
+    nav.open { display: flex; position: fixed; inset: 0; background: var(--night); flex-direction: column; justify-content: center; align-items: center; gap: 32px; z-index: 30; }
+    nav.open a { font-size: 13px; opacity: 1; }
+  }
+  @media (max-width: 560px) {
+    header { padding: 18px 6vw; }
+    .logo-img { height: 34px; }
+    .intro { padding: 120px 6vw 60px; }
+    .projeto { padding-bottom: 90px; }
+    .projeto .wrap { gap: 28px; }
+    .fim { padding: 90px 6vw; }
+  }
 </style>
 </head>
 <body class="has-cursor">
@@ -94,7 +111,8 @@
 
 <header>
   <a href="index.html" aria-label="Studio Micazzi, início"><img class="logo-img" src="img/logo-branco.png" alt="Micazzi"></a>
-  <nav aria-label="Principal">
+  <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav id="menu" aria-label="Principal">
     <a href="index.html">Studio</a>
     <a href="index.html#servicos">Serviços</a>
     <a href="projetos.html" aria-current="page">Projetos</a>
@@ -205,6 +223,19 @@
       el.addEventListener('mouseenter', function () { dot.classList.add('big'); });
       el.addEventListener('mouseleave', function () { dot.classList.remove('big'); });
     });
+  })();
+
+  // Menu do celular
+  (function () {
+    var btn = document.getElementById('menu-btn'), menu = document.getElementById('menu');
+    if (!btn || !menu) return;
+    function close() { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.textContent = 'Menu'; }
+    btn.addEventListener('click', function () {
+      var open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Fechar' : 'Menu';
+    });
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
   })();
 </script>
 </body>
