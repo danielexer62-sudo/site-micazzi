@@ -154,7 +154,7 @@
   .menu-btn { display: none; background: none; border: 1px solid rgba(255,255,255,.6); color: #fff; padding: 10px 16px; font: inherit; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; cursor: pointer; }
   @media (max-width: 900px) {
     body { overflow-x: hidden; }
-    .menu-btn { display: inline-block; }
+    .menu-btn { display: inline-block; position: relative; z-index: 31; }
     nav { display: none; }
     nav.open { display: flex; position: fixed; inset: 0; background: var(--night); flex-direction: column; justify-content: center; align-items: center; gap: 32px; z-index: 30; }
     nav.open a { font-size: 13px; opacity: 1; }
